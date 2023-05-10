@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+  <h1>오류 발생</h1>
+  <p>{{message}}</p>
+  <p>{{error.status}}</p>
+  <p>{{error.stack}}</p>
+{% endblock %}

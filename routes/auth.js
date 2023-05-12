@@ -11,8 +11,7 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
 
   try {
     const foundUser = await User.findOne({ where: { email } });
-    if (foundUser) {
-      // req.flash('joinError', '이미 가입된 이메일입니다.');
+    if (foundUser) {      
       return res.redirect('/join?error=exist');
     }
     const hash = await bcrypt.hash(password, 12);
@@ -34,8 +33,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       console.error(authError);
       return next(authError);
     }
-    if (!user) {
-      // req.flash('loginError', info.message);
+    if (!user) {      
       console.log('info message: ', info.message);
       return res.redirect(`/?error=${info.message}`);
     }

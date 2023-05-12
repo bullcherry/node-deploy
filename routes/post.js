@@ -40,7 +40,7 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
     const post = await Post.create({
       content: req.body.content,
       img: req.body.url,
-      UserId: req.user.id,
+      userId: req.user.id,
     });
 
     const hashtags = req.body.content.match(/#[^\s]+/g);
@@ -49,9 +49,8 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
         return Hashtag.findOrCreate({
           where: { title: tag.slice(1).toLowerCase() }
         })
-      }));
-      console.log('results: ', results);
-      await post.addHashtags(results.map(r => r[0]));
+      }));      
+      await post.addHashtags(results.map(r => r[0]));      
     }
     res.redirect('/');
   } catch (err) {

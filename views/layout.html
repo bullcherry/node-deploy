@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/main.css">
   </head>
   <body>
+    <a href="/">홈</a>
     <div class="container">
       <div class="profile-wrap">
         <div class="profile">
@@ -28,11 +29,11 @@
           <form id="login-form" action="/auth/login" method="post">
             <div class="input-group">
               <label for="email">이메일</label>
-              <input id="email" type="email" name="email" required autofocus>
+              <input id="email" type="email" name="email" value="aaa@aaa.com" required autofocus>
             </div>
             <div class="input-group">
               <label for="password">비밀번호</label>
-              <input id="password" type="password" name="password" required>
+              <input id="password" type="password" value="aaa" name="password" required>
             </div>
             <a id="join" href="/join" class="btn">회원가입</a>
             <button id="login" type="submit" class="btn">로그인</button>

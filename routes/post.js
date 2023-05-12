@@ -8,12 +8,19 @@ const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
-fs.readdir('uploads', (err) => {
-  if (err) {
-    console.log('uploads 폴더가 없으므로 uploads 폴더를 생성합니다.');
-    fs.mkdirSync('uploads');
-  }
-});
+// fs.readdir('uploads', (err) => {
+//   if (err) {
+//     console.log('uploads 폴더가 없으므로 uploads 폴더를 생성합니다.');
+//     fs.mkdirSync('uploads');
+//   }
+// });
+
+try {
+  fs.readdirSync('uploads');
+} catch (error) {
+  console.error('uploads 폴더가 없어 uploads 폴더를 생성합니다.');
+  fs.mkdirSync('uploads');
+}
 
 const upload = multer({
   storage: multer.diskStorage({

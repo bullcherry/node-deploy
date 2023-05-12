@@ -15,12 +15,14 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
       return res.redirect('/join?error=exist');
     }
     const hash = await bcrypt.hash(password, 12);
-    User.create({
+    await User.create({
       email,
       nick,
       password: hash,
     });
-    return res.redirect('/');
+
+    authenticate(req, res, next);
+    // return res.redirect('/');    
   } catch (err) {
     console.error(err);
     return next(err);
@@ -28,23 +30,7 @@ router.post('/join', isNotLoggedIn, async (req, res, next) => {
 });
 
 router.post('/login', isNotLoggedIn, (req, res, next) => {
-  passport.authenticate('local', (authError, user, info) => {
-    if (authError) {
-      console.error(authError);
-      return next(authError);
-    }
-    if (!user) {      
-      console.log('info message: ', info.message);
-      return res.redirect(`/?error=${info.message}`);
-    }
-    return req.login(user, (loginError) => {
-      if (loginError) {
-        console.error(loginError);
-        return next(loginError);
-      }
-      return res.redirect('/');
-    });
-  })(req, res, next);
+  authenticate(req, res, next);
 });
 
 router.get('/logout', isLoggedIn, (req, res, next) => {
@@ -64,5 +50,25 @@ router.get('/kakao/callback', passport.authenticate('kakao', {
   }), (req, res) => {
     res.redirect('/');
 });
+
+function authenticate(req, res, next) {
+  passport.authenticate('local', (authError, user, info) => {
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    }
+    if (!user) {      
+      console.log('info message: ', info.message);
+      return res.redirect(`/?error=${info.message}`);
+    }
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        console.error(loginError);
+        return next(loginError);
+      }
+      return res.redirect('/');
+    });
+  })(req, res, next);
+}
 
 module.exports = router;

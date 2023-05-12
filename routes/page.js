@@ -30,8 +30,6 @@ router.get('/', async (req, res, next) => {
       order: [['createdAt', 'DESC']],
     });
 
-    // console.log(posts);
-
     res.render('main', {
       title: 'NodeBird',
       twits: posts,
@@ -43,8 +41,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/hashtag', async (req, res, next) => {
-  const query = req.query.hashtag;
-  console.log(query);
+  const query = req.query.hashtag;  
   if (!query) {
     return res.redirect('/');
   }
@@ -54,9 +51,7 @@ router.get('/hashtag', async (req, res, next) => {
     let posts = [];
     if (hashtag) {
       posts = await hashtag.getPosts({ include: [{ model: User }] });
-    }
-
-    console.log(posts);
+    }    
 
     res.render('main', {
       title: `${query} - NodeBird`,

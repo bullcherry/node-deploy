@@ -7,6 +7,7 @@ const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 const passport = require('passport');
 const helmet = require('helmet');
+const contentSecurityPolicy = require('helmet-csp');
 const hpp = require('hpp');
 const redis = require('redis');
 const RedisStore = require('connect-redis').default;
@@ -46,6 +47,19 @@ sequelize
 if (process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
   app.use(helmet());
+  app.use(
+    contentSecurityPolicy({
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+      reportOnly: false,
+    }),
+  );
   app.use(hpp({ contentSecurityPolicy: false }));
 } else {
   app.use(morgan('dev'));

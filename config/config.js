@@ -19,7 +19,7 @@ module.exports = {
     username: 'root',
     password: process.env.SEQUELIZE_PASSWORD,
     database: 'nodebird',
-    host: 'svc.sel4.cloudtype.app:32365',
+    host: 'svc.sel4.cloudtype.app',
     dialect: 'mysql',
     logging: false,
   },

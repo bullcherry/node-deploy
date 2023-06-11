@@ -49,15 +49,11 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
   app.use(
     contentSecurityPolicy({
-      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         scriptSrc: ["'self'", "'unsafe-inline'"],
-        objectSrc: ["'none'"],
-        upgradeInsecureRequests: [],
       },
-      reportOnly: false,
     }),
   );
   app.use(hpp({ contentSecurityPolicy: false }));
